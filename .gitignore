@@ -1,3 +1,4 @@
+.verdaccio/
 node_modules
 dist
 .turbo
@@ -5,7 +6,3 @@ dist
 *.local
 .env
 .env.*
-ios
-android
-.vscode/*
-!.vscode/extensions.json

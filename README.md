@@ -1,74 +1,78 @@
-# Ionic + React MFE Monorepo (Turborepo)
+# MFE Packages (Repo A)
 
-Proof-of-concept monorepo demonstrating **Ionic React** micro-frontends with **Vite Module Federation** and **Turborepo**.
+Turborepo monorepo that **builds and publishes** Ionic React micro-frontends as **npm packages**.
 
-## Architecture
+Consumer apps install these packages and customize via props + theme.
 
-```
-┌─────────────────────────────────────────────────────────┐
-│  apps/shell (host)          http://localhost:3000       │
-│  Ionic tabs + router                                    │
-│    ├── /home     → loads home-remote (port 3001)        │
-│    └── /products → loads products-remote (port 3002)    │
-├─────────────────────────────────────────────────────────┤
-│  packages/ui     Shared Ionic components                │
-│  packages/types  Shared TypeScript interfaces           │
-│  packages/config Shared tsconfig presets                │
-└─────────────────────────────────────────────────────────┘
-```
+## Packages
 
-## Prerequisites
-
-- Node.js 20+
-- pnpm 9+
-
-## Quick Start
-
-```bash
-pnpm install
-pnpm dev
-```
-
-Open **http://localhost:3000** — the shell loads both remotes at runtime. Check DevTools → Network for `remoteEntry.js` requests to ports 3001 and 3002.
-
-## Apps
-
-| App | Port | Role |
-|-----|------|------|
-| `shell` | 3000 | Federation host |
-| `home-remote` | 3001 | Home micro-frontend |
-| `products-remote` | 3002 | Products micro-frontend |
+| Package | Description |
+|---------|-------------|
+| `@your-org/mfe-home` | Home micro-frontend — `HomeApp` + `HomeMfeConfig` |
+| `@your-org/mfe-products` | Products micro-frontend — `ProductsApp` + `ProductsMfeConfig` |
+| `@your-org/ui` | Shared Ionic UI components |
+| `@your-org/types` | Shared TypeScript types |
 
 ## Build
 
 ```bash
+pnpm install
 pnpm build
 ```
 
-For production-style federation, build all apps then serve remotes via `pnpm preview` in each app (or static CDN), and point shell `remotes.entry` URLs at deployed `remoteEntry.js` files.
+## Publish to npm / local registry
 
-## Capacitor (future)
-
-Each app includes a `capacitor.config.ts` stub with `webDir: 'dist'`. To add native shells later:
+See **[docs/PUBLISHING.md](./docs/PUBLISHING.md)** for full guide.
 
 ```bash
-cd apps/shell
-pnpm build
-npx cap add ios
-npx cap add android
+pnpm registry          # start Verdaccio at :4873
+pnpm changeset         # record changes
+pnpm version-packages  # bump versions
+pnpm publish:local     # build + publish to Verdaccio
 ```
 
-## Stakeholder Demo Checklist
+## Local dev with consumer app
 
-1. Run `pnpm dev` — all three apps start via Turbo
-2. Open shell at localhost:3000
-3. Switch Home / Products tabs — remotes load independently
-4. Shared `SharedButton` from `@repo/ui` appears in both remotes
-5. Show Network tab: `remoteEntry.js` fetched from remote ports
+See **`../my-ionic-app/docs/LOCAL_SETUP.md`** for the simplest setup (no Verdaccio).
 
-## Tech Stack
+```bash
+# From my-ionic-app — first time
+pnpm bootstrap
+pnpm dev
 
-- [Ionic React](https://ionicframework.com/docs/react)
-- [Turborepo](https://turbo.build)
-- [@module-federation/vite](https://github.com/module-federation/vite)
-- [pnpm workspaces](https://pnpm.io/workspaces)
+# When editing MFE packages — Terminal 1
+pnpm dev
+
+# Terminal 2 — in ../my-ionic-app
+pnpm dev
+```
+
+Consumer links packages via `file:../ionic-mfe-turbo/packages/...` in `package.json`.
+
+## Package API example
+
+```tsx
+import { HomeApp } from '@your-org/mfe-home';
+
+<HomeApp
+  title="Ứng dụng của tôi"
+  subtitle="Chào mừng"
+  buttonLabel="Bắt đầu"
+  onAction={() => console.log('clicked')}
+/>
+```
+
+## Architecture
+
+```
+mfe-packages/ (this repo)
+├── packages/mfe-home      → npm publish
+├── packages/mfe-products  → npm publish
+├── packages/ui
+└── packages/types
+
+my-ionic-app/ (consumer repo)
+├── installs @your-org/mfe-*
+├── config/mfe-config.ts   → customize props
+└── theme/brand.css        → customize colors
+```

@@ -1,5 +1,5 @@
 {
-  "name": "@your-org/ui",
+  "name": "@your-org/mfe-home",
   "version": "0.1.1",
   "private": false,
   "type": "module",
@@ -22,14 +22,18 @@
   },
   "peerDependencies": {
     "@ionic/react": "^8.5.0",
-    "react": "^18.3.1"
+    "@your-org/ui": "^0.1.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
   },
   "devDependencies": {
     "@ionic/react": "^8.5.0",
     "@your-org/config": "workspace:*",
+    "@your-org/ui": "workspace:*",
     "@types/react": "^18.3.18",
     "@vitejs/plugin-react": "^4.3.4",
     "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "typescript": "^5.7.3",
     "vite": "^6.2.0",
     "vite-plugin-dts": "^4.5.0"

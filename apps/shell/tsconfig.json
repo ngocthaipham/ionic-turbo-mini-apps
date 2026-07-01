@@ -1,8 +1,0 @@
-{
-  "extends": "@repo/config/tsconfig.react.json",
-  "compilerOptions": {
-    "composite": true,
-    "outDir": "dist"
-  },
-  "include": ["src"]
-}

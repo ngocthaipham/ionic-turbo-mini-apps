@@ -1,0 +1,39 @@
+# Verdaccio local registry for @your-org scope
+
+storage: ./.verdaccio/storage
+
+auth:
+  htpasswd:
+    file: ./.verdaccio/htpasswd
+    max_users: 1000
+
+uplinks:
+  npmjs:
+    url: https://registry.npmjs.org/
+
+packages:
+  '@your-org/*':
+    access: $all
+    publish: $all
+    unpublish: $all
+    proxy: npmjs
+
+  '**':
+    access: $all
+    publish: $all
+    unpublish: $all
+    proxy: npmjs
+
+server:
+  keepAliveTimeout: 60
+
+middlewares:
+  audit:
+    enabled: true
+
+log:
+  type: stdout
+  format: pretty
+  level: warn
+
+listen: 0.0.0.0:4873

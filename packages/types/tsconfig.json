@@ -1,4 +1,11 @@
 {
-  "extends": "@repo/config/tsconfig.base.json",
+  "extends": "@your-org/config/tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "src",
+    "declaration": true,
+    "declarationMap": true,
+    "noEmit": false
+  },
   "include": ["src"]
 }
