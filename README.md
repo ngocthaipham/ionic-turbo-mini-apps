@@ -1,17 +1,30 @@
-# MFE Packages (Repo A)
+# ionic-mfe-turbo
 
-Turborepo monorepo that **builds and publishes** Ionic React micro-frontends as **npm packages**.
+Turborepo monorepo: **shared packages** + **publishable apps** (host core + mini MFEs).
 
-Consumer apps install these packages and customize via props + theme.
+Consumer demo: [`../my-ionic-app`](../my-ionic-app) — installs `@your-org/core` and customizes via `CoreProvider` + props.
 
-## Packages
+## Layout
 
-| Package | Description |
-|---------|-------------|
-| `@your-org/mfe-home` | Home micro-frontend — `HomeApp` + `HomeMfeConfig` |
-| `@your-org/mfe-products` | Products micro-frontend — `ProductsApp` + `ProductsMfeConfig` |
-| `@your-org/ui` | Shared Ionic UI components |
-| `@your-org/types` | Shared TypeScript types |
+```
+ionic-mfe-turbo/
+├── packages/                  ← shared libs & tooling (not published)
+│   ├── config/                ← tsconfig + eslint conventions
+│   ├── types/                 → @your-org/types
+│   └── ui/                    → @your-org/ui
+├── apps/                      ← publishable apps (npm)
+│   ├── core/                  → @your-org/core (host shell)
+│   ├── home/                  → @your-org/home
+│   └── products/              → @your-org/products
+└── my-ionic-app/ (sibling)     ← demo consumer
+```
+
+| Layer | Location | Publish? |
+|-------|----------|----------|
+| ESLint / TS config | `packages/config` | No |
+| Shared types & UI | `packages/types`, `packages/ui` | Yes |
+| Host + mini apps | `apps/core`, `apps/home`, `apps/products` | Yes |
+| Demo consumer | `../my-ionic-app` | No (private app) |
 
 ## Build
 
@@ -20,59 +33,54 @@ pnpm install
 pnpm build
 ```
 
-## Publish to npm / local registry
-
-See **[docs/PUBLISHING.md](./docs/PUBLISHING.md)** for full guide.
+## Version & publish (Changesets)
 
 ```bash
-pnpm registry          # start Verdaccio at :4873
-pnpm changeset         # record changes
-pnpm version-packages  # bump versions
+pnpm changeset         # record bump
+pnpm version-packages  # apply versions + CHANGELOG
 pnpm publish:local     # build + publish to Verdaccio
 ```
 
-## Local dev with consumer app
+See [docs/PUBLISHING.md](./docs/PUBLISHING.md).
 
-See **`../my-ionic-app/docs/LOCAL_SETUP.md`** for the simplest setup (no Verdaccio).
+## Local dev with demo app
 
 ```bash
-# From my-ionic-app — first time
-pnpm bootstrap
-pnpm dev
+# All apps
+cd ionic-mfe-turbo && pnpm dev
 
-# When editing MFE packages — Terminal 1
-pnpm dev
-
-# Terminal 2 — in ../my-ionic-app
-pnpm dev
+# Host + one mini app only (faster)
+pnpm dev:home       # core + home
+pnpm dev:products   # core + products
 ```
 
-Consumer links packages via `file:../ionic-mfe-turbo/packages/...` in `package.json`.
+```bash
+# Terminal 2 — demo consumer (match the mini app)
+cd my-ionic-app && pnpm dev:home    # or pnpm dev:products
+```
 
-## Package API example
+Full guide: [`../my-ionic-app/docs/LOCAL_SETUP.md`](../my-ionic-app/docs/LOCAL_SETUP.md)
+
+## Consumer API
 
 ```tsx
-import { HomeApp } from '@your-org/mfe-home';
+import { CoreApp, CoreProvider } from '@your-org/core';
 
-<HomeApp
-  title="Ứng dụng của tôi"
-  subtitle="Chào mừng"
-  buttonLabel="Bắt đầu"
-  onAction={() => console.log('clicked')}
-/>
+<CoreProvider
+  config={{
+    tabs: { home: 'Trang chủ', products: 'Sản phẩm' },
+    home: { title: '...', onAction: () => {} },
+    products: { currency: 'VND', products: [...], onProductSelect: (p) => {} },
+  }}
+>
+  <CoreApp />
+</CoreProvider>
 ```
 
-## Architecture
+**Advanced** — import a single mini app:
 
-```
-mfe-packages/ (this repo)
-├── packages/mfe-home      → npm publish
-├── packages/mfe-products  → npm publish
-├── packages/ui
-└── packages/types
+```tsx
+import { ProductsApp } from '@your-org/products';
 
-my-ionic-app/ (consumer repo)
-├── installs @your-org/mfe-*
-├── config/mfe-config.ts   → customize props
-└── theme/brand.css        → customize colors
+<ProductsApp currency="VND" products={[...]} />
 ```

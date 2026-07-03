@@ -1,4 +1,4 @@
-# @your-org/mfe-home
+# @your-org/products
 
 ## 0.1.1
 
@@ -6,4 +6,5 @@
 
 - Initial publish setup with Changesets and Verdaccio local registry.
 - Updated dependencies
+  - @your-org/types@0.1.1
   - @your-org/ui@0.1.1

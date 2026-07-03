@@ -1,6 +1,6 @@
 {
-  "name": "@your-org/mfe-products",
-  "version": "0.1.1",
+  "name": "@your-org/core",
+  "version": "0.1.4",
   "private": false,
   "type": "module",
   "main": "./dist/index.js",
@@ -20,22 +20,33 @@
     "dev": "vite build --watch",
     "lint": "tsc --noEmit"
   },
+  "dependencies": {
+    "@your-org/home": "workspace:*",
+    "@your-org/products": "workspace:*"
+  },
   "peerDependencies": {
     "@ionic/react": "^8.5.0",
-    "@your-org/types": "^0.1.1",
-    "@your-org/ui": "^0.1.1",
+    "@ionic/react-router": "^8.5.0",
+    "ionicons": "^7.4.0",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^5.3.4"
   },
   "devDependencies": {
     "@ionic/react": "^8.5.0",
-    "@your-org/config": "workspace:*",
-    "@your-org/types": "workspace:*",
-    "@your-org/ui": "workspace:*",
-    "@types/react": "^18.3.18",
+    "@ionic/react-router": "^8.5.0",
+    "@types/react": "18.3.18",
+    "@types/react-dom": "18.3.5",
+    "@types/react-router-dom": "^5.3.3",
     "@vitejs/plugin-react": "^4.3.4",
+    "@your-org/config": "workspace:*",
+    "@your-org/home": "workspace:*",
+    "@your-org/products": "workspace:*",
+    "@your-org/types": "workspace:*",
+    "ionicons": "^7.4.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-router-dom": "^5.3.4",
     "typescript": "^5.7.3",
     "vite": "^6.2.0",
     "vite-plugin-dts": "^4.5.0"

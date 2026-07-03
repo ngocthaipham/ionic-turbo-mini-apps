@@ -6,8 +6,9 @@
     [
       "@your-org/types",
       "@your-org/ui",
-      "@your-org/mfe-home",
-      "@your-org/mfe-products"
+      "@your-org/home",
+      "@your-org/products",
+      "@your-org/core"
     ]
   ],
   "linked": [],

@@ -4,21 +4,38 @@
   "scripts": {
     "build": "turbo build",
     "dev": "turbo dev",
-    "lint": "turbo lint",
+    "dev:home": "turbo dev --filter=@your-org/home --filter=@your-org/core",
+    "dev:products": "turbo dev --filter=@your-org/products --filter=@your-org/core",
+    "build:home": "turbo build --filter=@your-org/home --filter=@your-org/core",
+    "build:products": "turbo build --filter=@your-org/products --filter=@your-org/core",
+    "lint": "turbo lint && eslint .",
+    "lint:eslint": "eslint .",
     "changeset": "changeset",
     "version-packages": "changeset version",
     "release": "pnpm build && changeset publish",
     "registry": "verdaccio --config verdaccio.config.yaml",
     "publish:local": "pnpm build && pnpm publish:packages",
-    "publish:packages": "pnpm --filter @your-org/types publish --no-git-checks && pnpm --filter @your-org/ui publish --no-git-checks && pnpm --filter @your-org/mfe-home publish --no-git-checks && pnpm --filter @your-org/mfe-products publish --no-git-checks"
+    "publish:packages": "pnpm --filter @your-org/types publish --no-git-checks && pnpm --filter @your-org/ui publish --no-git-checks && pnpm --filter @your-org/home publish --no-git-checks && pnpm --filter @your-org/products publish --no-git-checks && pnpm --filter @your-org/core publish --no-git-checks"
   },
   "devDependencies": {
     "@changesets/cli": "^2.29.2",
+    "@eslint/js": "^9.21.0",
+    "@your-org/config": "workspace:*",
+    "eslint": "^9.21.0",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.19",
     "turbo": "^2.5.4",
+    "typescript-eslint": "^8.26.0",
     "verdaccio": "^6.1.18"
   },
   "packageManager": "pnpm@9.15.9",
   "engines": {
     "node": ">=20"
+  },
+  "pnpm": {
+    "overrides": {
+      "@types/react": "18.3.18",
+      "@types/react-dom": "18.3.5"
+    }
   }
 }

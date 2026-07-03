@@ -46,7 +46,7 @@ export interface ProductsMfeConfig {
 export function ProductsApp({
   headerTitle = 'Products',
   title = 'Product Catalog',
-  subtitle = 'Installed from @your-org/mfe-products npm package.',
+  subtitle = 'Installed from @your-org/products npm package.',
   products = defaultProducts,
   currency = 'USD',
   onProductSelect,

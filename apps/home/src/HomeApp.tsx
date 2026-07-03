@@ -18,7 +18,7 @@ export interface HomeMfeConfig {
 export function HomeApp({
   headerTitle = 'Home',
   title = 'Welcome',
-  subtitle = 'Installed from @your-org/mfe-home npm package.',
+  subtitle = 'Installed from @your-org/home npm package.',
   buttonLabel = 'Shared UI Button',
   onAction,
 }: HomeMfeConfig = {}) {

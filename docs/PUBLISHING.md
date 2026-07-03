@@ -12,10 +12,19 @@ Publishable packages (versioned together):
 
 - `@your-org/types`
 - `@your-org/ui`
-- `@your-org/mfe-home`
-- `@your-org/mfe-products`
+- `@your-org/home`
+- `@your-org/products`
+- `@your-org/core`
 
-Internal only (not published): `@your-org/config`
+Internal only (not published): `@your-org/config` (eslint + tsconfig in `packages/config`)
+
+Monorepo layout:
+
+```
+packages/types, packages/ui   → shared libraries
+apps/home, products   → mini apps
+apps/core                     → host shell
+```
 
 ---
 
@@ -70,10 +79,7 @@ In `~/my-ionic-app/package.json`, replace `file:` links:
 ```json
 {
   "dependencies": {
-    "@your-org/mfe-home": "^0.2.0",
-    "@your-org/mfe-products": "^0.2.0",
-    "@your-org/ui": "^0.2.0",
-    "@your-org/types": "^0.2.0"
+    "@your-org/core": "^0.2.0"
   }
 }
 ```
